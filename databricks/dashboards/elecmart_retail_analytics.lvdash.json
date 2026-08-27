@@ -3,100 +3,253 @@
     {
       "name": "ds_kpi",
       "displayName": "kpi_summary",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_kpi_summary"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_kpi_summary"
     },
     {
       "name": "ds_rev_month",
       "displayName": "revenue_by_month",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_revenue_by_month"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_revenue_by_month"
     },
     {
       "name": "ds_cat",
       "displayName": "sales_by_category",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_sales_by_category"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_category"
     },
     {
       "name": "ds_channel",
       "displayName": "sales_by_channel",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_sales_by_channel"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_channel"
     },
     {
       "name": "ds_top_prod",
       "displayName": "top_products",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_top_products LIMIT 15"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_top_products LIMIT 15"
     },
     {
       "name": "ds_loyalty",
       "displayName": "customer_loyalty_mix",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_customer_loyalty_mix"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_customer_loyalty_mix"
     },
     {
       "name": "ds_funnel",
       "displayName": "clickstream_funnel_by_month",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_clickstream_funnel_by_month"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_clickstream_funnel_by_month"
     },
     {
       "name": "ds_device",
       "displayName": "sessions_by_device",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_sessions_by_device"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_sessions_by_device"
     },
     {
       "name": "ds_campaign",
       "displayName": "campaign_performance",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_campaign_performance ORDER BY attributed_revenue DESC LIMIT 15"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_campaign_performance ORDER BY attributed_revenue DESC LIMIT 15"
     },
     {
       "name": "ds_inv_cat",
       "displayName": "inventory_by_category",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_inventory_by_category"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_inventory_by_category"
     },
     {
       "name": "ds_store",
       "displayName": "store_performance",
-      "queryLines": [
-        "SELECT * FROM elecmart.gold.bi_sales_by_store"
-      ]
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_store"
+    },
+    {
+      "name": "ds_daily",
+      "displayName": "daily_sales",
+      "query": "SELECT * FROM elecmart.gold.bi_daily_sales"
+    },
+    {
+      "name": "ds_funnel_all",
+      "displayName": "funnel_overall",
+      "query": "SELECT * FROM elecmart.gold.bi_funnel_overall"
+    },
+    {
+      "name": "ds_weekday",
+      "displayName": "sales_by_weekday",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_weekday"
+    },
+    {
+      "name": "ds_brand",
+      "displayName": "sales_by_brand",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_brand LIMIT 15"
+    },
+    {
+      "name": "ds_subcat",
+      "displayName": "sales_by_subcategory",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_subcategory LIMIT 15"
+    },
+    {
+      "name": "ds_payment",
+      "displayName": "sales_by_payment_type",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_payment_type"
+    },
+    {
+      "name": "ds_returns",
+      "displayName": "returns_by_category",
+      "query": "SELECT * FROM elecmart.gold.bi_returns_by_category"
+    },
+    {
+      "name": "ds_promo",
+      "displayName": "promotion_performance",
+      "query": "SELECT * FROM elecmart.gold.bi_promotion_performance ORDER BY promo_revenue DESC LIMIT 15"
+    },
+    {
+      "name": "ds_newret",
+      "displayName": "new_vs_returning_by_month",
+      "query": "SELECT * FROM elecmart.gold.bi_customer_new_vs_returning_by_month"
+    },
+    {
+      "name": "ds_region",
+      "displayName": "sales_by_region",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_region LIMIT 30"
+    },
+    {
+      "name": "ds_invstore",
+      "displayName": "inventory_by_store",
+      "query": "SELECT * FROM elecmart.gold.bi_inventory_by_store"
+    },
+    {
+      "name": "ds_invmonth",
+      "displayName": "inventory_by_month",
+      "query": "SELECT * FROM elecmart.gold.bi_inventory_by_month"
     }
   ],
   "pages": [
     {
-      "name": "page_main",
-      "displayName": "Elecmart Overview",
+      "name": "page_overview",
+      "displayName": "Overview",
+      "pageType": "PAGE_TYPE_CANVAS",
       "layout": [
         {
           "widget": {
-            "name": "hdr",
+            "name": "hdr1",
             "multilineTextboxSpec": {
               "lines": [
-                "# Elecmart — Retail Analytics\n",
-                "Net revenue, profitability, funnel, campaigns and inventory across 3 years. Source: `elecmart.gold.bi_*` views."
+                "# Elecmart \u2014 Retail Analytics \u00b7 Overview\nRevenue, profitability, funnel, campaigns, inventory. Source: `elecmart.gold.bi_*` views."
               ]
             }
           },
           "position": {
             "x": 0,
             "y": 0,
-            "width": 6,
+            "width": 5,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "f_date",
+            "queries": [
+              {
+                "name": "f_date_q0",
+                "query": {
+                  "datasetName": "ds_rev_month",
+                  "fields": [
+                    {
+                      "name": "month_start",
+                      "expression": "`month_start`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_date_q1",
+                "query": {
+                  "datasetName": "ds_funnel",
+                  "fields": [
+                    {
+                      "name": "month_start",
+                      "expression": "`month_start`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_date_q2",
+                "query": {
+                  "datasetName": "ds_daily",
+                  "fields": [
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_date_q3",
+                "query": {
+                  "datasetName": "ds_newret",
+                  "fields": [
+                    {
+                      "name": "month_start",
+                      "expression": "`month_start`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_date_q4",
+                "query": {
+                  "datasetName": "ds_invmonth",
+                  "fields": [
+                    {
+                      "name": "snapshot_month",
+                      "expression": "`snapshot_month`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "month_start",
+                    "displayName": "month_start",
+                    "queryName": "f_date_q0"
+                  },
+                  {
+                    "fieldName": "month_start",
+                    "displayName": "month_start",
+                    "queryName": "f_date_q1"
+                  },
+                  {
+                    "fieldName": "sale_date",
+                    "displayName": "sale_date",
+                    "queryName": "f_date_q2"
+                  },
+                  {
+                    "fieldName": "month_start",
+                    "displayName": "month_start",
+                    "queryName": "f_date_q3"
+                  },
+                  {
+                    "fieldName": "snapshot_month",
+                    "displayName": "snapshot_month",
+                    "queryName": "f_date_q4"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Date range"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 0,
+            "width": 1,
             "height": 1
           }
         },
@@ -784,40 +937,183 @@
                       "expression": "`store_name`"
                     },
                     {
-                      "name": "sum(net_revenue)",
-                      "expression": "SUM(`net_revenue`)"
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "state_province",
+                      "expression": "`state_province`"
+                    },
+                    {
+                      "name": "net_revenue",
+                      "expression": "`net_revenue`"
+                    },
+                    {
+                      "name": "gross_profit",
+                      "expression": "`gross_profit`"
+                    },
+                    {
+                      "name": "gross_margin_pct",
+                      "expression": "`gross_margin_pct`"
+                    },
+                    {
+                      "name": "orders",
+                      "expression": "`orders`"
+                    },
+                    {
+                      "name": "aov",
+                      "expression": "`aov`"
                     }
                   ],
-                  "disaggregated": false
+                  "disaggregated": true
                 }
               }
             ],
             "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "store_name",
+                    "displayName": "Store",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Store",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "city",
+                    "displayName": "City",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 1,
+                    "title": "City",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "state_province",
+                    "displayName": "Province",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Province",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "net_revenue",
+                    "displayName": "Net Revenue",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 3,
+                    "title": "Net Revenue",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  },
+                  {
+                    "fieldName": "gross_profit",
+                    "displayName": "Gross Profit",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 4,
+                    "title": "Gross Profit",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  },
+                  {
+                    "fieldName": "gross_margin_pct",
+                    "displayName": "Margin %",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 5,
+                    "title": "Margin %",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  },
+                  {
+                    "fieldName": "orders",
+                    "displayName": "Orders",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 6,
+                    "title": "Orders",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0"
+                  },
+                  {
+                    "fieldName": "aov",
+                    "displayName": "AOV",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 7,
+                    "title": "AOV",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  }
+                ]
+              },
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 25,
               "frame": {
                 "showTitle": true,
-                "title": {
-                  "value": "Revenue by Store",
-                  "fields": []
-                }
-              },
-              "version": 3,
-              "widgetType": "area",
-              "encodings": {
-                "x": {
-                  "fieldName": "store_name",
-                  "scale": {
-                    "type": "categorical"
-                  }
-                },
-                "y": {
-                  "fieldName": "sum(net_revenue)",
-                  "scale": {
-                    "type": "quantitative"
-                  }
-                }
-              },
-              "data": {
-                "queryName": "main_query"
+                "title": "Store performance"
               }
             }
           },
@@ -942,14 +1238,826 @@
             "height": 7
           }
         }
-      ],
-      "pageType": "PAGE_TYPE_CANVAS"
-    }
-  ],
-  "uiSettings": {
-    "theme": {
-      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+      ]
     },
-    "applyModeEnabled": false
-  }
+    {
+      "name": "page_deepdive",
+      "displayName": "Deep dive",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr2",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Elecmart \u2014 Deep dive\nFunnel stages, brand / sub-category / region / payment mix, returns, promotions, new vs returning, inventory by store."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "b_funnel",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_funnel_all",
+                  "fields": [
+                    {
+                      "name": "stage",
+                      "expression": "`stage`"
+                    },
+                    {
+                      "name": "sum(sessions)",
+                      "expression": "SUM(`sessions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "stage",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Stage"
+                },
+                "y": {
+                  "fieldName": "sum(sessions)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Sessions"
+                  },
+                  "displayName": "Sessions"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Conversion funnel (all sessions)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "b_weekday",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_weekday",
+                  "fields": [
+                    {
+                      "name": "day_name",
+                      "expression": "`day_name`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "day_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Day"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by day of week"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 1,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "b_brand",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_brand",
+                  "fields": [
+                    {
+                      "name": "brand_name",
+                      "expression": "`brand_name`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "brand_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Brand"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top 15 brands by revenue"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "b_subcat",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_subcat",
+                  "fields": [
+                    {
+                      "name": "subcategory_name",
+                      "expression": "`subcategory_name`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "subcategory_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Sub-category"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top 15 sub-categories by revenue"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 8,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "b_pay",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_payment",
+                  "fields": [
+                    {
+                      "name": "payment_type",
+                      "expression": "`payment_type`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "payment_type",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Payment type"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by payment type"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 15,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "b_ret",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_returns",
+                  "fields": [
+                    {
+                      "name": "category_name",
+                      "expression": "`category_name`"
+                    },
+                    {
+                      "name": "sum(returned_revenue)",
+                      "expression": "SUM(`returned_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Category"
+                },
+                "y": {
+                  "fieldName": "sum(returned_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Returned Revenue"
+                  },
+                  "displayName": "Returned Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Returned revenue by category"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 15,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "b_promo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_promo",
+                  "fields": [
+                    {
+                      "name": "promo_name",
+                      "expression": "`promo_name`"
+                    },
+                    {
+                      "name": "sum(promo_revenue)",
+                      "expression": "SUM(`promo_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "promo_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Promotion"
+                },
+                "y": {
+                  "fieldName": "sum(promo_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Promo Revenue"
+                  },
+                  "displayName": "Promo Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top 15 promotions by revenue"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 15,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "t_newret",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_newret",
+                  "fields": [
+                    {
+                      "name": "month_start",
+                      "expression": "`month_start`"
+                    },
+                    {
+                      "name": "new_customers",
+                      "expression": "`new_customers`"
+                    },
+                    {
+                      "name": "returning_customers",
+                      "expression": "`returning_customers`"
+                    },
+                    {
+                      "name": "new_customer_revenue",
+                      "expression": "`new_customer_revenue`"
+                    },
+                    {
+                      "name": "returning_customer_revenue",
+                      "expression": "`returning_customer_revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "month_start",
+                    "displayName": "Month",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Month",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "new_customers",
+                    "displayName": "New customers",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 1,
+                    "title": "New customers",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0"
+                  },
+                  {
+                    "fieldName": "returning_customers",
+                    "displayName": "Returning customers",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Returning customers",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0"
+                  },
+                  {
+                    "fieldName": "new_customer_revenue",
+                    "displayName": "New-cust revenue",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 3,
+                    "title": "New-cust revenue",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  },
+                  {
+                    "fieldName": "returning_customer_revenue",
+                    "displayName": "Returning-cust revenue",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 4,
+                    "title": "Returning-cust revenue",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  }
+                ]
+              },
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 25,
+              "frame": {
+                "showTitle": true,
+                "title": "New vs returning customers by month"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 21,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "t_region",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_region",
+                  "fields": [
+                    {
+                      "name": "state_province",
+                      "expression": "`state_province`"
+                    },
+                    {
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "net_revenue",
+                      "expression": "`net_revenue`"
+                    },
+                    {
+                      "name": "orders",
+                      "expression": "`orders`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "state_province",
+                    "displayName": "Province",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Province",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "city",
+                    "displayName": "City",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 1,
+                    "title": "City",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "net_revenue",
+                    "displayName": "Net Revenue",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Net Revenue",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  },
+                  {
+                    "fieldName": "orders",
+                    "displayName": "Orders",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 3,
+                    "title": "Orders",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0"
+                  }
+                ]
+              },
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 25,
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by region (top 30)"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 28,
+            "width": 3,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "t_invstore",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_invstore",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "inventory_turnover",
+                      "expression": "`inventory_turnover`"
+                    },
+                    {
+                      "name": "total_shrinkage_loss",
+                      "expression": "`total_shrinkage_loss`"
+                    },
+                    {
+                      "name": "backorder_rate_pct",
+                      "expression": "`backorder_rate_pct`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "store_name",
+                    "displayName": "Store",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Store",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "city",
+                    "displayName": "City",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 1,
+                    "title": "City",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "inventory_turnover",
+                    "displayName": "Turns",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Turns",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  },
+                  {
+                    "fieldName": "total_shrinkage_loss",
+                    "displayName": "Shrinkage",
+                    "type": "integer",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 3,
+                    "title": "Shrinkage",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0"
+                  },
+                  {
+                    "fieldName": "backorder_rate_pct",
+                    "displayName": "Backorder %",
+                    "type": "float",
+                    "displayAs": "number",
+                    "visible": true,
+                    "order": 4,
+                    "title": "Backorder %",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "allowHTML": false,
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ],
+                    "numberFormat": "0,0.00"
+                  }
+                ]
+              },
+              "allowHTMLByDefault": false,
+              "itemsPerPage": 25,
+              "frame": {
+                "showTitle": true,
+                "title": "Inventory health by store"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 28,
+            "width": 3,
+            "height": 9
+          }
+        }
+      ]
+    }
+  ]
 }

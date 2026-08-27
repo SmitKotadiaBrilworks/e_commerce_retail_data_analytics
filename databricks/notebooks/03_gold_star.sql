@@ -102,7 +102,8 @@ WITH calculate_line_discount AS (
     ON fs.transaction_id = ft.transaction_id
 )
 SELECT *,
-       round(line_total - allocated_line_discount, 2) AS net_line_revenue
+       round(line_total - allocated_line_discount, 2)             AS net_line_revenue,
+       round(line_total - allocated_line_discount - line_cost, 2) AS net_line_profit
 FROM calculate_line_discount;
 
 -- COMMAND ----------

@@ -278,6 +278,168 @@ ORDER BY snapshot_month;
 
 -- COMMAND ----------
 
+-- MAGIC %md ## 9 · Extra marts — daily grain, funnel stages, brand / region / payment / weekday / returns / promo / retention
+
+-- COMMAND ----------
+
+-- Daily grain — feeds fine-grained trends and a dashboard date-range filter.
+CREATE OR REPLACE VIEW bi_daily_sales AS
+SELECT
+  CAST(transaction_timestamp AS DATE)                                                        AS sale_date,
+  round(sum(CASE WHEN transaction_status = 'Completed' THEN net_line_revenue END), 2)        AS net_revenue,
+  round(sum(CASE WHEN transaction_status = 'Completed' THEN net_line_profit END), 2)         AS gross_profit,
+  count(DISTINCT CASE WHEN transaction_status = 'Completed' THEN transaction_id END)         AS orders,
+  sum(CASE WHEN transaction_status = 'Completed' THEN quantity END)                          AS units_sold,
+  round(sum(CASE WHEN transaction_status = 'Completed' THEN net_line_revenue END)
+        / nullif(count(DISTINCT CASE WHEN transaction_status = 'Completed' THEN transaction_id END), 0), 2) AS aov
+FROM gold_fact_sale
+GROUP BY 1
+ORDER BY 1;
+
+-- COMMAND ----------
+
+-- Whole-period funnel as 4 stage rows → clean funnel / bar chart.
+CREATE OR REPLACE VIEW bi_funnel_overall AS
+WITH s AS (
+  SELECT
+    count(DISTINCT session_id)                                              AS c_sessions,
+    count(DISTINCT CASE WHEN product_page_visited_flag THEN session_id END) AS c_views,
+    count(DISTINCT CASE WHEN added_to_cart_flag THEN session_id END)        AS c_cart,
+    count(DISTINCT CASE WHEN purchased_flag THEN session_id END)            AS c_purch
+  FROM gold_fact_clickstream
+)
+            SELECT 1 AS step, 'Sessions'      AS stage, c_sessions AS sessions, CAST(100.00 AS DECIMAL(5,2)) AS pct_of_sessions FROM s
+UNION ALL SELECT 2, 'Product views', c_views, round(100.0 * c_views  / nullif(c_sessions, 0), 2) FROM s
+UNION ALL SELECT 3, 'Add to cart',   c_cart,  round(100.0 * c_cart   / nullif(c_sessions, 0), 2) FROM s
+UNION ALL SELECT 4, 'Purchases',     c_purch, round(100.0 * c_purch  / nullif(c_sessions, 0), 2) FROM s
+ORDER BY step;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE VIEW bi_sales_by_brand AS
+SELECT p.brand_name,
+       round(sum(CASE WHEN s.transaction_status = 'Completed' THEN s.net_line_revenue END), 2) AS net_revenue,
+       round(sum(CASE WHEN s.transaction_status = 'Completed' THEN s.net_line_profit END), 2)  AS gross_profit,
+       sum(CASE WHEN s.transaction_status = 'Completed' THEN s.quantity END)                   AS units_sold
+FROM gold_fact_sale s
+JOIN gold_dim_product p ON s.product_id = p.product_id
+GROUP BY p.brand_name
+ORDER BY net_revenue DESC;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE VIEW bi_sales_by_subcategory AS
+SELECT p.category_name, p.subcategory_name,
+       round(sum(CASE WHEN s.transaction_status = 'Completed' THEN s.net_line_revenue END), 2) AS net_revenue,
+       round(sum(CASE WHEN s.transaction_status = 'Completed' THEN s.net_line_profit END), 2)  AS gross_profit,
+       sum(CASE WHEN s.transaction_status = 'Completed' THEN s.quantity END)                   AS units_sold
+FROM gold_fact_sale s
+JOIN gold_dim_product p ON s.product_id = p.product_id
+GROUP BY p.category_name, p.subcategory_name
+ORDER BY net_revenue DESC;
+
+-- COMMAND ----------
+
+-- Region via the selling store's location.
+CREATE OR REPLACE VIEW bi_sales_by_region AS
+SELECT st.country, st.state_province, st.city,
+       round(sum(CASE WHEN s.transaction_status = 'Completed' THEN s.net_line_revenue END), 2) AS net_revenue,
+       count(DISTINCT CASE WHEN s.transaction_status = 'Completed' THEN s.transaction_id END)  AS orders
+FROM gold_fact_sale s
+JOIN gold_dim_store st ON s.store_id = st.store_id
+GROUP BY st.country, st.state_province, st.city
+ORDER BY net_revenue DESC;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE VIEW bi_sales_by_payment_type AS
+SELECT payment_type,
+       count(DISTINCT CASE WHEN transaction_status = 'Completed' THEN transaction_id END)  AS orders,
+       round(sum(CASE WHEN transaction_status = 'Completed' THEN transaction_total END), 2) AS net_revenue,
+       round(sum(CASE WHEN transaction_status = 'Completed' THEN transaction_total END)
+             / nullif(count(DISTINCT CASE WHEN transaction_status = 'Completed' THEN transaction_id END), 0), 2) AS aov
+FROM gold_fact_transaction
+GROUP BY payment_type
+ORDER BY net_revenue DESC;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE VIEW bi_sales_by_weekday AS
+SELECT d.day_of_week, d.day_name,
+       round(sum(CASE WHEN s.transaction_status = 'Completed' THEN s.net_line_revenue END), 2) AS net_revenue,
+       count(DISTINCT CASE WHEN s.transaction_status = 'Completed' THEN s.transaction_id END)  AS orders,
+       round(sum(CASE WHEN s.transaction_status = 'Completed' THEN s.net_line_revenue END)
+             / nullif(count(DISTINCT CASE WHEN s.transaction_status = 'Completed' THEN s.transaction_id END), 0), 2) AS aov
+FROM gold_fact_sale s
+JOIN gold_dim_date d ON s.transaction_date_id = d.date_id
+GROUP BY d.day_of_week, d.day_name
+ORDER BY d.day_of_week;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE VIEW bi_returns_by_category AS
+SELECT p.category_name,
+       round(sum(CASE WHEN s.transaction_status = 'Returned' THEN s.net_line_revenue END), 2)  AS returned_revenue,
+       count(DISTINCT CASE WHEN s.transaction_status = 'Returned' THEN s.transaction_id END)   AS returned_orders,
+       round(100.0 * sum(CASE WHEN s.transaction_status = 'Returned' THEN s.net_line_revenue END)
+             / nullif(sum(s.net_line_revenue), 0), 2)                                          AS return_rate_pct
+FROM gold_fact_sale s
+JOIN gold_dim_product p ON s.product_id = p.product_id
+GROUP BY p.category_name
+ORDER BY returned_revenue DESC;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE VIEW bi_promotion_performance AS
+SELECT pr.promo_id, pr.promo_name, pr.promo_type, pr.discount_type,
+       count(DISTINCT CASE WHEN t.transaction_status = 'Completed' THEN t.transaction_id END)         AS promo_orders,
+       round(sum(CASE WHEN t.transaction_status = 'Completed' THEN t.transaction_total END), 2)       AS promo_revenue,
+       round(sum(CASE WHEN t.transaction_status = 'Completed' THEN t.transaction_discount_applied END), 2) AS discount_given,
+       round(sum(CASE WHEN t.transaction_status = 'Completed' THEN t.transaction_total END)
+             / nullif(count(DISTINCT CASE WHEN t.transaction_status = 'Completed' THEN t.transaction_id END), 0), 2) AS avg_revenue_per_promo_txn
+FROM gold_dim_promotion pr
+JOIN gold_fact_transaction t ON t.promo_id = pr.promo_id
+GROUP BY pr.promo_id, pr.promo_name, pr.promo_type, pr.discount_type
+ORDER BY promo_revenue DESC;
+
+-- COMMAND ----------
+
+-- New vs returning: a customer is "new" in the month of their first completed order.
+CREATE OR REPLACE VIEW bi_customer_new_vs_returning_by_month AS
+WITH orders AS (
+  SELECT customer_id, transaction_total,
+         CAST(date_trunc('MONTH', transaction_timestamp) AS DATE) AS month_start
+  FROM gold_fact_transaction
+  WHERE transaction_status = 'Completed' AND customer_id IS NOT NULL
+),
+first_month AS (
+  SELECT customer_id, min(month_start) AS acq_month FROM orders GROUP BY customer_id
+)
+SELECT o.month_start,
+       count(DISTINCT CASE WHEN o.month_start = f.acq_month THEN o.customer_id END) AS new_customers,
+       count(DISTINCT CASE WHEN o.month_start > f.acq_month THEN o.customer_id END) AS returning_customers,
+       round(sum(CASE WHEN o.month_start = f.acq_month THEN o.transaction_total END), 2) AS new_customer_revenue,
+       round(sum(CASE WHEN o.month_start > f.acq_month THEN o.transaction_total END), 2) AS returning_customer_revenue
+FROM orders o
+JOIN first_month f ON o.customer_id = f.customer_id
+GROUP BY o.month_start
+ORDER BY o.month_start;
+
+-- COMMAND ----------
+
+CREATE OR REPLACE VIEW bi_inventory_by_store AS
+SELECT st.store_name, st.city, st.state_province,
+       round(sum(i.sold_units) / nullif(avg((i.starting_stock + i.closing_stock) / 2.0), 0), 2) AS inventory_turnover,
+       sum(i.sold_units)     AS total_units_sold,
+       sum(i.shrinkage_loss) AS total_shrinkage_loss,
+       round(100.0 * avg(CASE WHEN i.backorder_flag THEN 1.0 ELSE 0.0 END), 2) AS backorder_rate_pct
+FROM gold_fact_inventory i
+JOIN gold_dim_store st ON i.store_id = st.store_id
+GROUP BY st.store_name, st.city, st.state_province
+ORDER BY inventory_turnover DESC;
+
+-- COMMAND ----------
+
 -- MAGIC %md ## Smoke test — every view returns rows
 
 -- COMMAND ----------
@@ -295,4 +457,15 @@ UNION ALL SELECT 'bi_sessions_by_device',          count(*) FROM bi_sessions_by_
 UNION ALL SELECT 'bi_sessions_by_traffic_source',  count(*) FROM bi_sessions_by_traffic_source
 UNION ALL SELECT 'bi_campaign_performance',        count(*) FROM bi_campaign_performance
 UNION ALL SELECT 'bi_inventory_by_category',       count(*) FROM bi_inventory_by_category
-UNION ALL SELECT 'bi_inventory_by_month',          count(*) FROM bi_inventory_by_month;
+UNION ALL SELECT 'bi_inventory_by_month',          count(*) FROM bi_inventory_by_month
+UNION ALL SELECT 'bi_daily_sales',                 count(*) FROM bi_daily_sales
+UNION ALL SELECT 'bi_funnel_overall',              count(*) FROM bi_funnel_overall
+UNION ALL SELECT 'bi_sales_by_brand',              count(*) FROM bi_sales_by_brand
+UNION ALL SELECT 'bi_sales_by_subcategory',        count(*) FROM bi_sales_by_subcategory
+UNION ALL SELECT 'bi_sales_by_region',             count(*) FROM bi_sales_by_region
+UNION ALL SELECT 'bi_sales_by_payment_type',       count(*) FROM bi_sales_by_payment_type
+UNION ALL SELECT 'bi_sales_by_weekday',            count(*) FROM bi_sales_by_weekday
+UNION ALL SELECT 'bi_returns_by_category',         count(*) FROM bi_returns_by_category
+UNION ALL SELECT 'bi_promotion_performance',       count(*) FROM bi_promotion_performance
+UNION ALL SELECT 'bi_customer_new_vs_returning_by_month', count(*) FROM bi_customer_new_vs_returning_by_month
+UNION ALL SELECT 'bi_inventory_by_store',          count(*) FROM bi_inventory_by_store;
