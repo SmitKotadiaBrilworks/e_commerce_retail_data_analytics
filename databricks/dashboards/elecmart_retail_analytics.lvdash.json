@@ -3,71 +3,93 @@
     {
       "name": "ds_kpi",
       "displayName": "kpi_summary",
-      "query": "SELECT * FROM elecmart.gold.bi_kpi_summary"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_kpi_summary"
+      ]
     },
     {
       "name": "ds_rev_month",
       "displayName": "revenue_by_month",
-      "query": "SELECT * FROM elecmart.gold.bi_revenue_by_month"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_revenue_by_month"
+      ]
     },
     {
       "name": "ds_cat",
       "displayName": "sales_by_category",
-      "query": "SELECT * FROM elecmart.gold.bi_sales_by_category"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_sales_by_category"
+      ]
     },
     {
       "name": "ds_channel",
       "displayName": "sales_by_channel",
-      "query": "SELECT * FROM elecmart.gold.bi_sales_by_channel"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_sales_by_channel"
+      ]
     },
     {
       "name": "ds_top_prod",
       "displayName": "top_products",
-      "query": "SELECT * FROM elecmart.gold.bi_top_products LIMIT 15"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_top_products LIMIT 15"
+      ]
     },
     {
       "name": "ds_loyalty",
       "displayName": "customer_loyalty_mix",
-      "query": "SELECT * FROM elecmart.gold.bi_customer_loyalty_mix"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_customer_loyalty_mix"
+      ]
     },
     {
       "name": "ds_funnel",
       "displayName": "clickstream_funnel_by_month",
-      "query": "SELECT * FROM elecmart.gold.bi_clickstream_funnel_by_month"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_clickstream_funnel_by_month"
+      ]
     },
     {
       "name": "ds_device",
       "displayName": "sessions_by_device",
-      "query": "SELECT * FROM elecmart.gold.bi_sessions_by_device"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_sessions_by_device"
+      ]
     },
     {
       "name": "ds_campaign",
       "displayName": "campaign_performance",
-      "query": "SELECT * FROM elecmart.gold.bi_campaign_performance ORDER BY attributed_revenue DESC LIMIT 15"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_campaign_performance ORDER BY attributed_revenue DESC LIMIT 15"
+      ]
     },
     {
       "name": "ds_inv_cat",
       "displayName": "inventory_by_category",
-      "query": "SELECT * FROM elecmart.gold.bi_inventory_by_category"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_inventory_by_category"
+      ]
     },
     {
       "name": "ds_store",
       "displayName": "store_performance",
-      "query": "SELECT * FROM elecmart.gold.bi_sales_by_store"
+      "queryLines": [
+        "SELECT * FROM elecmart.gold.bi_sales_by_store"
+      ]
     }
   ],
   "pages": [
     {
       "name": "page_main",
       "displayName": "Elecmart Overview",
-      "pageType": "PAGE_TYPE_CANVAS",
       "layout": [
         {
           "widget": {
             "name": "hdr",
             "multilineTextboxSpec": {
               "lines": [
-                "# Elecmart \u2014 Retail Analytics\nNet revenue, profitability, funnel, campaigns and inventory across 3 years. Source: `elecmart.gold.bi_*` views."
+                "# Elecmart — Retail Analytics\n",
+                "Net revenue, profitability, funnel, campaigns and inventory across 3 years. Source: `elecmart.gold.bi_*` views."
               ]
             }
           },
@@ -762,168 +784,40 @@
                       "expression": "`store_name`"
                     },
                     {
-                      "name": "city",
-                      "expression": "`city`"
-                    },
-                    {
-                      "name": "state_province",
-                      "expression": "`state_province`"
-                    },
-                    {
-                      "name": "net_revenue",
-                      "expression": "`net_revenue`"
-                    },
-                    {
-                      "name": "gross_profit",
-                      "expression": "`gross_profit`"
-                    },
-                    {
-                      "name": "gross_margin_pct",
-                      "expression": "`gross_margin_pct`"
-                    },
-                    {
-                      "name": "orders",
-                      "expression": "`orders`"
-                    },
-                    {
-                      "name": "aov",
-                      "expression": "`aov`"
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
                     }
                   ],
-                  "disaggregated": true
+                  "disaggregated": false
                 }
               }
             ],
             "spec": {
-              "version": 1,
-              "widgetType": "table",
-              "encodings": {
-                "columns": [
-                  {
-                    "fieldName": "store_name",
-                    "displayName": "Store",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 0,
-                    "title": "Store",
-                    "allowSearch": false,
-                    "alignContent": "left",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  },
-                  {
-                    "fieldName": "city",
-                    "displayName": "City",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 1,
-                    "title": "City",
-                    "allowSearch": false,
-                    "alignContent": "right",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  },
-                  {
-                    "fieldName": "state_province",
-                    "displayName": "Province",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 2,
-                    "title": "Province",
-                    "allowSearch": false,
-                    "alignContent": "right",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  },
-                  {
-                    "fieldName": "net_revenue",
-                    "displayName": "Net Revenue",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 3,
-                    "title": "Net Revenue",
-                    "allowSearch": false,
-                    "alignContent": "right",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  },
-                  {
-                    "fieldName": "gross_profit",
-                    "displayName": "Gross Profit",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 4,
-                    "title": "Gross Profit",
-                    "allowSearch": false,
-                    "alignContent": "right",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  },
-                  {
-                    "fieldName": "gross_margin_pct",
-                    "displayName": "Margin %",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 5,
-                    "title": "Margin %",
-                    "allowSearch": false,
-                    "alignContent": "right",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  },
-                  {
-                    "fieldName": "orders",
-                    "displayName": "Orders",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 6,
-                    "title": "Orders",
-                    "allowSearch": false,
-                    "alignContent": "right",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  },
-                  {
-                    "fieldName": "aov",
-                    "displayName": "AOV",
-                    "type": "string",
-                    "displayAs": "string",
-                    "visible": true,
-                    "order": 7,
-                    "title": "AOV",
-                    "allowSearch": false,
-                    "alignContent": "right",
-                    "booleanValues": [
-                      "false",
-                      "true"
-                    ]
-                  }
-                ]
-              },
               "frame": {
                 "showTitle": true,
-                "title": "Store performance"
+                "title": {
+                  "value": "Revenue by Store",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "area",
+              "encodings": {
+                "x": {
+                  "fieldName": "store_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
               }
             }
           },
@@ -1048,7 +942,14 @@
             "height": 7
           }
         }
-      ]
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
     }
-  ]
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
 }

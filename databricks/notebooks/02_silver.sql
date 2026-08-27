@@ -12,6 +12,7 @@ USE CATALOG elecmart;
 USE SCHEMA silver;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_brand
 
 -- COMMAND ----------
@@ -25,6 +26,7 @@ WITH source_data AS (
 SELECT brand_id, brand_name FROM source_data WHERE rn = 1 ORDER BY brand_id;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_campaign
 
 -- COMMAND ----------
@@ -42,6 +44,7 @@ SELECT
 FROM elecmart.bronze.dim_campaign;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_category / silver_dim_subcategory
 
 -- COMMAND ----------
@@ -61,6 +64,7 @@ SELECT subcategory_id, initcap(subcategory_name) AS subcategory_name, category_i
 FROM elecmart.bronze.dim_subcategory;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_customer  (age, age_group, income_bracket enrichment)
 
 -- COMMAND ----------
@@ -121,6 +125,7 @@ SELECT
 FROM deduplicated;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_date
 
 -- COMMAND ----------
@@ -130,6 +135,7 @@ SELECT *, day(last_day(`date`)) AS days_in_month
 FROM elecmart.bronze.dim_date;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_location
 
 -- COMMAND ----------
@@ -143,6 +149,7 @@ SELECT location_id,
 FROM elecmart.bronze.dim_location;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_product  (drops rows where unit_cost >= unit_price or NULLs)
 
 -- COMMAND ----------
@@ -177,6 +184,7 @@ SELECT product_id, product_name, category_id, subcategory_id, brand_id,
 FROM check_nulls;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_promotion
 
 -- COMMAND ----------
@@ -205,6 +213,7 @@ SELECT promo_id, promo_name, promo_type, discount_type, discount_value,
 FROM check_quality;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_dim_store
 
 -- COMMAND ----------
@@ -221,6 +230,7 @@ SELECT CAST(store_id AS INT)           AS store_id,
 FROM elecmart.bronze.dim_store;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_fact_clickstream
 
 -- COMMAND ----------
@@ -243,6 +253,7 @@ SELECT CAST(session_id AS INT)                    AS session_id,
 FROM elecmart.bronze.fact_clickstream;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_fact_inventory
 
 -- COMMAND ----------
@@ -262,6 +273,7 @@ SELECT CAST(inventory_id AS INT)   AS inventory_id,
 FROM elecmart.bronze.inventory;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_fact_sale
 
 -- COMMAND ----------
@@ -281,6 +293,7 @@ SELECT CAST(sale_id AS INT)                         AS sale_id,
 FROM elecmart.bronze.fact_sale;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### silver_fact_transaction
 
 -- COMMAND ----------

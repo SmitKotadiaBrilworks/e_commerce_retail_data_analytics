@@ -12,6 +12,7 @@ USE CATALOG elecmart;
 USE SCHEMA gold;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 1 · Executive KPI summary (single row → counters)
 
 -- COMMAND ----------
@@ -43,6 +44,7 @@ SELECT
 FROM s;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 2 · Revenue & profit by month (time series)
 
 -- COMMAND ----------
@@ -62,6 +64,7 @@ GROUP BY 1
 ORDER BY 1;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 3 · Sales by category / channel / product
 
 -- COMMAND ----------
@@ -100,6 +103,7 @@ GROUP BY p.product_name, p.category_name, p.brand_name
 ORDER BY net_revenue DESC;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 4 · Store performance
 
 -- COMMAND ----------
@@ -120,6 +124,7 @@ GROUP BY st.store_id, st.store_name, st.city, st.state_province, st.store_type
 ORDER BY net_revenue DESC;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 5 · Customer analytics
 
 -- COMMAND ----------
@@ -158,6 +163,7 @@ GROUP BY loyalty_status
 ORDER BY net_revenue DESC;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 6 · Clickstream funnel
 
 -- COMMAND ----------
@@ -207,6 +213,7 @@ GROUP BY traffic_source
 ORDER BY sessions DESC;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 7 · Campaign performance
 
 -- COMMAND ----------
@@ -239,6 +246,7 @@ LEFT JOIN tx ON c.campaign_id = tx.campaign_id
 ORDER BY attributed_revenue DESC;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## 8 · Inventory health
 
 -- COMMAND ----------
@@ -269,6 +277,7 @@ GROUP BY snapshot_month
 ORDER BY snapshot_month;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## Smoke test — every view returns rows
 
 -- COMMAND ----------

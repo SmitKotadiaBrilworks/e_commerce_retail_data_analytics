@@ -15,6 +15,7 @@ USE CATALOG elecmart;
 USE SCHEMA gold;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## Dimensions
 
 -- COMMAND ----------
@@ -66,6 +67,7 @@ CREATE OR REPLACE TABLE gold_dim_campaign  AS SELECT * FROM elecmart.silver.silv
 CREATE OR REPLACE TABLE gold_dim_promotion AS SELECT * FROM elecmart.silver.silver_dim_promotion;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## Facts
 
 -- COMMAND ----------
@@ -78,6 +80,7 @@ CREATE OR REPLACE TABLE gold_fact_inventory   AS SELECT * FROM elecmart.silver.s
 CREATE OR REPLACE VIEW gold_fact_clickstream AS SELECT * FROM elecmart.silver.silver_fact_clickstream;
 
 -- COMMAND ----------
+
 -- MAGIC %md
 -- MAGIC ### gold_fact_sale — allocates the transaction-level discount down to each line
 -- MAGIC `allocated_line_discount = line_total / transaction_subtotal * transaction_discount_applied`
@@ -103,6 +106,7 @@ SELECT *,
 FROM calculate_line_discount;
 
 -- COMMAND ----------
+
 -- MAGIC %md ## Informational constraints (optional but recommended)
 -- MAGIC Not enforced by Databricks — they document the model and feed Genie / AI-BI join discovery.
 -- MAGIC If a `SET NOT NULL` fails, some key has NULLs; fix the data or skip that line.

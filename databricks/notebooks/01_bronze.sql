@@ -25,6 +25,7 @@ USE CATALOG elecmart;
 USE SCHEMA bronze;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### Dimensions
 
 -- COMMAND ----------
@@ -62,6 +63,7 @@ CREATE OR REPLACE TABLE dim_date AS
 SELECT * FROM read_files('/Volumes/elecmart/bronze/landing/dim_date.parquet', format => 'parquet');
 
 -- COMMAND ----------
+
 -- MAGIC %md ### Facts  (fact_clickstream ≈ 14.5 M rows / 351 MB — a couple of minutes on 2X-Small serverless)
 
 -- COMMAND ----------
@@ -79,6 +81,7 @@ CREATE OR REPLACE TABLE inventory AS
 SELECT * FROM read_files('/Volumes/elecmart/bronze/landing/inventory.parquet', format => 'parquet');
 
 -- COMMAND ----------
+
 -- MAGIC %md ### Row-count check  (expected: customer 150k · product 470 · txn 900k · sale ~1.8M · clickstream 14.5M · inventory 846k)
 
 -- COMMAND ----------

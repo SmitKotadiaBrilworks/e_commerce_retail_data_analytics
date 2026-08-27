@@ -114,6 +114,7 @@ FROM dq_results
 ORDER BY failing_rows DESC, check_name;
 
 -- COMMAND ----------
+
 -- MAGIC %md ### Guard — fails the job if any check has offending rows
 
 -- COMMAND ----------
