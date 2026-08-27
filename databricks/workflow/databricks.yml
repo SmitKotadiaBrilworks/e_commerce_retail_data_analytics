@@ -1,0 +1,56 @@
+# Databricks Asset Bundle — deploys the notebooks + a serverless job that runs the pipeline.
+# Works on Free Edition (serverless only).
+#
+#   pip install databricks-cli            # or: brew install databricks
+#   databricks configure --token          # host + PAT
+#   cd databricks/workflow
+#   databricks bundle deploy -t dev
+#   databricks bundle run elecmart_pipeline -t dev
+#
+# The dashboard is deployed too; open it from Workspace ▸ (bundle path) ▸ dashboards.
+
+bundle:
+  name: elecmart
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      # host: https://<your-workspace>.cloud.databricks.com   # or set DATABRICKS_HOST
+
+resources:
+  jobs:
+    elecmart_pipeline:
+      name: elecmart_pipeline
+      # serverless: no job_clusters block => tasks run on serverless compute
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: setup
+          notebook_task:
+            notebook_path: ../notebooks/00_setup.sql
+        - task_key: bronze
+          depends_on: [{ task_key: setup }]
+          notebook_task:
+            notebook_path: ../notebooks/01_bronze.sql
+        - task_key: silver
+          depends_on: [{ task_key: bronze }]
+          notebook_task:
+            notebook_path: ../notebooks/02_silver.sql
+        - task_key: gold_star
+          depends_on: [{ task_key: silver }]
+          notebook_task:
+            notebook_path: ../notebooks/03_gold_star.sql
+        - task_key: gold_bi_marts
+          depends_on: [{ task_key: gold_star }]
+          notebook_task:
+            notebook_path: ../notebooks/04_gold_bi_marts.sql
+        - task_key: data_quality
+          depends_on: [{ task_key: gold_bi_marts }]
+          notebook_task:
+            notebook_path: ../notebooks/05_data_quality.sql
+
+  dashboards:
+    elecmart_dashboard:
+      display_name: Elecmart Retail Analytics
+      file_path: ../dashboards/elecmart_retail_analytics.lvdash.json

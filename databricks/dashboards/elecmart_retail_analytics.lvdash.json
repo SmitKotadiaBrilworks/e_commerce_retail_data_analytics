@@ -1,0 +1,1054 @@
+{
+  "datasets": [
+    {
+      "name": "ds_kpi",
+      "displayName": "kpi_summary",
+      "query": "SELECT * FROM elecmart.gold.bi_kpi_summary"
+    },
+    {
+      "name": "ds_rev_month",
+      "displayName": "revenue_by_month",
+      "query": "SELECT * FROM elecmart.gold.bi_revenue_by_month"
+    },
+    {
+      "name": "ds_cat",
+      "displayName": "sales_by_category",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_category"
+    },
+    {
+      "name": "ds_channel",
+      "displayName": "sales_by_channel",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_channel"
+    },
+    {
+      "name": "ds_top_prod",
+      "displayName": "top_products",
+      "query": "SELECT * FROM elecmart.gold.bi_top_products LIMIT 15"
+    },
+    {
+      "name": "ds_loyalty",
+      "displayName": "customer_loyalty_mix",
+      "query": "SELECT * FROM elecmart.gold.bi_customer_loyalty_mix"
+    },
+    {
+      "name": "ds_funnel",
+      "displayName": "clickstream_funnel_by_month",
+      "query": "SELECT * FROM elecmart.gold.bi_clickstream_funnel_by_month"
+    },
+    {
+      "name": "ds_device",
+      "displayName": "sessions_by_device",
+      "query": "SELECT * FROM elecmart.gold.bi_sessions_by_device"
+    },
+    {
+      "name": "ds_campaign",
+      "displayName": "campaign_performance",
+      "query": "SELECT * FROM elecmart.gold.bi_campaign_performance ORDER BY attributed_revenue DESC LIMIT 15"
+    },
+    {
+      "name": "ds_inv_cat",
+      "displayName": "inventory_by_category",
+      "query": "SELECT * FROM elecmart.gold.bi_inventory_by_category"
+    },
+    {
+      "name": "ds_store",
+      "displayName": "store_performance",
+      "query": "SELECT * FROM elecmart.gold.bi_sales_by_store"
+    }
+  ],
+  "pages": [
+    {
+      "name": "page_main",
+      "displayName": "Elecmart Overview",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Elecmart \u2014 Retail Analytics\nNet revenue, profitability, funnel, campaigns and inventory across 3 years. Source: `elecmart.gold.bi_*` views."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "c_rev",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(net_revenue)",
+                  "displayName": "Sum of net_revenue",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "CAD",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net Revenue"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c_profit",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "sum(gross_profit)",
+                      "expression": "SUM(`gross_profit`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(gross_profit)",
+                  "displayName": "Sum of gross_profit",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "CAD",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Gross Profit"
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 1,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c_margin",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "sum(gross_margin_pct)",
+                      "expression": "SUM(`gross_margin_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(gross_margin_pct)",
+                  "displayName": "Sum of gross_margin_pct",
+                  "format": {
+                    "type": "number-plain",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Gross Margin %"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 1,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c_orders",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "sum(total_transactions)",
+                      "expression": "SUM(`total_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_transactions)",
+                  "displayName": "Sum of total_transactions"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Completed Orders"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 1,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c_units",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "sum(units_sold)",
+                      "expression": "SUM(`units_sold`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(units_sold)",
+                  "displayName": "Sum of units_sold"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Units Sold"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 1,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "c_aov",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_kpi",
+                  "fields": [
+                    {
+                      "name": "sum(aov)",
+                      "expression": "SUM(`aov`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(aov)",
+                  "displayName": "Sum of aov",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "CAD",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 0
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Avg Order Value"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 1,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "l_rev",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_rev_month",
+                  "fields": [
+                    {
+                      "name": "month_start",
+                      "expression": "`month_start`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month_start",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Month"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net revenue by month"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 4,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "b_cat",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_cat",
+                  "fields": [
+                    {
+                      "name": "category_name",
+                      "expression": "`category_name`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Category"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by category"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 4,
+            "width": 2,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "b_channel",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_channel",
+                  "fields": [
+                    {
+                      "name": "sales_channel",
+                      "expression": "`sales_channel`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sales_channel",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Channel"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by channel"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 11,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "b_prod",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_top_prod",
+                  "fields": [
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "product_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Product"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top 15 products"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 11,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "b_loyalty",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_loyalty",
+                  "fields": [
+                    {
+                      "name": "loyalty_status",
+                      "expression": "`loyalty_status`"
+                    },
+                    {
+                      "name": "sum(net_revenue)",
+                      "expression": "SUM(`net_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "loyalty_status",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Loyalty tier"
+                },
+                "y": {
+                  "fieldName": "sum(net_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Net Revenue"
+                  },
+                  "displayName": "Net Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by loyalty tier"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 11,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "l_conv",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_funnel",
+                  "fields": [
+                    {
+                      "name": "month_start",
+                      "expression": "`month_start`"
+                    },
+                    {
+                      "name": "sum(conversion_rate_pct)",
+                      "expression": "SUM(`conversion_rate_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month_start",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Month"
+                },
+                "y": {
+                  "fieldName": "sum(conversion_rate_pct)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Conversion %"
+                  },
+                  "displayName": "Conversion %"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Session conversion rate by month"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 17,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "b_device",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_device",
+                  "fields": [
+                    {
+                      "name": "device_type",
+                      "expression": "`device_type`"
+                    },
+                    {
+                      "name": "sum(sessions)",
+                      "expression": "SUM(`sessions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "device_type",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Device"
+                },
+                "y": {
+                  "fieldName": "sum(sessions)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Sessions"
+                  },
+                  "displayName": "Sessions"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Sessions by device"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 17,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "t_store",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_store",
+                  "fields": [
+                    {
+                      "name": "store_name",
+                      "expression": "`store_name`"
+                    },
+                    {
+                      "name": "city",
+                      "expression": "`city`"
+                    },
+                    {
+                      "name": "state_province",
+                      "expression": "`state_province`"
+                    },
+                    {
+                      "name": "net_revenue",
+                      "expression": "`net_revenue`"
+                    },
+                    {
+                      "name": "gross_profit",
+                      "expression": "`gross_profit`"
+                    },
+                    {
+                      "name": "gross_margin_pct",
+                      "expression": "`gross_margin_pct`"
+                    },
+                    {
+                      "name": "orders",
+                      "expression": "`orders`"
+                    },
+                    {
+                      "name": "aov",
+                      "expression": "`aov`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 1,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "store_name",
+                    "displayName": "Store",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 0,
+                    "title": "Store",
+                    "allowSearch": false,
+                    "alignContent": "left",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "city",
+                    "displayName": "City",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 1,
+                    "title": "City",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "state_province",
+                    "displayName": "Province",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 2,
+                    "title": "Province",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "net_revenue",
+                    "displayName": "Net Revenue",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 3,
+                    "title": "Net Revenue",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "gross_profit",
+                    "displayName": "Gross Profit",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 4,
+                    "title": "Gross Profit",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "gross_margin_pct",
+                    "displayName": "Margin %",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 5,
+                    "title": "Margin %",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "orders",
+                    "displayName": "Orders",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 6,
+                    "title": "Orders",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  },
+                  {
+                    "fieldName": "aov",
+                    "displayName": "AOV",
+                    "type": "string",
+                    "displayAs": "string",
+                    "visible": true,
+                    "order": 7,
+                    "title": "AOV",
+                    "allowSearch": false,
+                    "alignContent": "right",
+                    "booleanValues": [
+                      "false",
+                      "true"
+                    ]
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Store performance"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 23,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "b_camp",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_campaign",
+                  "fields": [
+                    {
+                      "name": "campaign_name",
+                      "expression": "`campaign_name`"
+                    },
+                    {
+                      "name": "sum(attributed_revenue)",
+                      "expression": "SUM(`attributed_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "campaign_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Campaign"
+                },
+                "y": {
+                  "fieldName": "sum(attributed_revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Attributed Revenue"
+                  },
+                  "displayName": "Attributed Revenue"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Campaign attributed revenue"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 31,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "b_inv",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ds_inv_cat",
+                  "fields": [
+                    {
+                      "name": "category_name",
+                      "expression": "`category_name`"
+                    },
+                    {
+                      "name": "sum(inventory_turnover)",
+                      "expression": "SUM(`inventory_turnover`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "category_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Category"
+                },
+                "y": {
+                  "fieldName": "sum(inventory_turnover)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Inventory Turnover"
+                  },
+                  "displayName": "Inventory Turnover"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Inventory turnover by category"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 31,
+            "width": 3,
+            "height": 7
+          }
+        }
+      ]
+    }
+  ]
+}

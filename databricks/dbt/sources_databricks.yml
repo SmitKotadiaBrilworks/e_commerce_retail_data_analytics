@@ -1,0 +1,23 @@
+# dbt source definitions for the bronze layer (elecmart/models/BRONZE/sources.yml).
+version: 2
+
+sources:
+  - name: bronze
+    database: elecmart          # Unity Catalog catalog (dbt-databricks maps `database` -> catalog)
+    schema: bronze
+    description: "Raw ingested data loaded by databricks/notebooks/01_bronze.sql"
+    tables:
+      - name: dim_customer
+      - name: dim_campaign
+      - name: dim_date
+      - name: dim_category
+      - name: dim_subcategory
+      - name: dim_brand
+      - name: dim_product
+      - name: dim_location
+      - name: dim_promotion
+      - name: dim_store
+      - name: fact_clickstream
+      - name: fact_sale
+      - name: fact_transaction
+      - name: inventory

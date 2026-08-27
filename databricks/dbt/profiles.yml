@@ -1,0 +1,20 @@
+# dbt profile for the elecmart project.
+# Install:  pip install dbt-core dbt-databricks
+# Put this file at ~/.dbt/profiles.yml  (or run: dbt --profiles-dir ./databricks/dbt ...)
+#
+# Env vars needed:
+#   DATABRICKS_HOST       e.g. dbc-1234abcd-5e6f.cloud.databricks.com   (no https://)
+#   DATABRICKS_HTTP_PATH  SQL warehouse ▸ Connection details ▸ HTTP path  (/sql/1.0/warehouses/xxxxxxxx)
+#   DATABRICKS_TOKEN      User settings ▸ Developer ▸ Access tokens
+
+elecmart:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: elecmart
+      schema: silver             # default schema; SILVER/GOLD models override via dbt_project.yml
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      threads: 4

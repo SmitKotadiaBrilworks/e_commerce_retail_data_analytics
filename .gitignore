@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local raw data extract (~420 MB) — do not commit; see databricks/README.md
+*.parquet
