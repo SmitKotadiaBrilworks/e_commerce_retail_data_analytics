@@ -70,7 +70,7 @@ SELECT 'fact_sale.product_id → dim_product',
 UNION ALL
 SELECT 'fact_transaction.sales_channel in (web,mobile,store)',
        count(*) FROM silver.silver_fact_transaction
-       WHERE sales_channel NOT IN ('web','mobile','store')
+       WHERE lower(sales_channel) NOT IN ('web','mobile','store')
 UNION ALL
 SELECT 'fact_transaction.transaction_status in (Completed,Returned)',
        count(*) FROM silver.silver_fact_transaction
@@ -84,7 +84,7 @@ SELECT 'fact_transaction.payment_type accepted values',
 -- ---- custom business rules (dbt tests/) ----
 UNION ALL
 SELECT 'dim_date: day within 1..days_in_month',
-       count(*) FROM silver.silver_dim_date WHERE day < 1 OR day > days_in_month
+       count(*) FROM silver.silver_dim_date WHERE day < 1 OR day > DAYOFMONTH(LAST_DAY(`date`))
 UNION ALL
 SELECT 'dim_product: unit_cost < unit_price and not null',
        count(*) FROM silver.silver_dim_product
